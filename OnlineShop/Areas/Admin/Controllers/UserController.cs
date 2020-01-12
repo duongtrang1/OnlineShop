@@ -1,5 +1,6 @@
 ﻿using Model.Dao;
 using Model.EF;
+using OnlineShop.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,11 +16,23 @@ namespace OnlineShop.Areas.Admin.Controllers
         {
             return View();
         }
+
+        [HttpGet]
+        public ActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
         public ActionResult Create(User user) 
         {
             if (ModelState.IsValid)
             {
                 var dao = new UserDao();
+
+                var encryptedMD5Pas = Encryptor.MD5Hash(user.Password);
+                user.Password = encryptedMD5Pas;
+
                 long id = dao.Insert(user);
                 if (id > 0)
                 {
