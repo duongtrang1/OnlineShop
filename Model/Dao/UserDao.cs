@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using PagedList;
+
 
 namespace Model.Dao
 {
@@ -14,11 +16,21 @@ namespace Model.Dao
         {
             db = new OnlineShopDbContext();
         }
+
         public long Insert(User entity) {
             db.Users.Add(entity);
             db.SaveChanges();
             return entity.ID;
         }
+
+        //Hàm trả về danh sách tất cả Users
+        public IEnumerable<User> ListAllPaging(int page, int pageSize)
+
+        {
+            //Sắp xếp theo thứ tự ngày tạo
+            return db.Users.OrderByDescending(x=>x.CreateDate).ToPagedList(page, pageSize); 
+        }
+
         public User GetById(string userName)
         {
             return db.Users.SingleOrDefault(x => x.UserName == userName);

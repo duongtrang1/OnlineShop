@@ -1,10 +1,53 @@
-﻿@model Model.EF.User
-
+﻿@model PagedList.IPagedList<Model.EF.User>
+@using PagedList.Mvc;
 @{
-    ViewBag.Title = "Quan ly nguoi dung";
+    ViewBag.Title = "Quản lý người dùng";
     Layout = "~/Areas/Admin/Views/Shared/_Layouts.cshtml";
 }
 
 @section header {
-    Danh sach nguoi dung
+    Danh sách người dùng
     }
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Danh sách người dùng    
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Tài khoản</th>
+                                <th>Tên</th>
+                                <th>Email</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        <a href="/User/Edit/@item.ID">Sửa</a>
+                                        <a href="/User/Delete/@item.ID">Xóa</a>
+                                    </td>
+                                    <td>@item.UserName</td>
+                                    <td>@item.Name</td>
+                                    <td>@item.Email</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                    @*Hiển thị thông tin trang*@
+                    @Html.PagedListPager(Model, page => Url.Action("Index", new { page}))
+                </div>
+                <!-- /.table-responsive -->
+            </div>
+            <!-- /.panel-body -->
+        </div>
+    </div>
+</div>

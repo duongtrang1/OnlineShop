@@ -12,9 +12,13 @@ namespace OnlineShop.Areas.Admin.Controllers
     public class UserController : BaseController
     {
         // GET: Admin/User
-        public ActionResult Index()
+        public ActionResult Index(int page = 1, int pageSize = 1)//khai báo tham số mặc định = 1,pageSize = 1 là 1 trang chứa 1 User
         {
-            return View();
+            //Khởi tạo đối tượng dao
+            var dao = new UserDao();
+            //gán model, truyền vào page, pageSize
+            var model = dao.ListAllPaging(page, pageSize); 
+            return View(model);//Truyền model vào View
         }
 
         [HttpGet]
