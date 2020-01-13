@@ -44,7 +44,41 @@ namespace OnlineShop.Areas.Admin.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError("", "Them user thanh cong");
+                    ModelState.AddModelError("", "Thêm User thất bại");
+                }
+            }
+            return View("Index");
+        }
+
+
+        public ActionResult Edit(int id)//Truyền vào id của user
+        {
+            var user = new UserDao().ViewDetail(id);
+
+            return View(user);
+        }
+
+        [HttpPost]
+        public ActionResult Edit(User user)
+        {
+            if (ModelState.IsValid)
+            {
+                var dao = new UserDao();
+                //Kiểm tra xem người dùng có muốn đổi mật khẩu không
+                if (!string.IsNullOrEmpty(user.Password))
+                {
+                    var encryptedMD5Pas = Encryptor.MD5Hash(user.Password);
+                    user.Password = encryptedMD5Pas;
+                }
+
+                var result = dao.Update(user);
+                if (result)
+                {                    
+                    return RedirectToAction("Index", "User");
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Cập nhật User thất bại");
                 }
             }
             return View("Index");
