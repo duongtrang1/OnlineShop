@@ -45,7 +45,7 @@ namespace Model.Dao
                 db.SaveChanges();
                 return true;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
                 return false ;
@@ -96,6 +96,23 @@ namespace Model.Dao
                         return -2;
                     }
                 }
+            }
+        }
+
+        //Xóa
+        public bool Delete(int id)
+        {
+            try
+            {
+                var user = db.Users.Find(id);
+                db.Users.Remove(user);
+                db.SaveChanges();
+                return true;
+            }
+            catch (Exception)
+            {
+
+                return false;
             }
         }
     }

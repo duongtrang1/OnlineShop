@@ -30,11 +30,16 @@
                         <tbody>
                             @foreach (var item in Model)
                             {
-                                <tr>
+                                <tr id="row_@item.ID">
                                     <td>
                                         <a href="/Admin/User/Edit/@item.ID">Sửa</a>
-                                        |
-                                        <a href="/Admin/User/Delete/@item.ID">Xóa</a>
+                                        |                                                                               
+                                        @Ajax.ActionLink("Xóa", "Delete" ,new {@id = item.ID } , new AjaxOptions
+                                   {
+                                       Confirm="Bạn có muốn xóa bản ghi?",
+                                       OnComplete = "#('row_" +@item.ID+"' ).remove()",
+                                       HttpMethod = "Delete"
+                                   })
                                     </td>
                                     <td>@item.UserName</td>
                                     <td>@item.Name</td>
