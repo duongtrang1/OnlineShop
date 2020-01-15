@@ -53,11 +53,17 @@ namespace Model.Dao
         }
 
         //Hàm trả về danh sách tất cả Users
-        public IEnumerable<User> ListAllPaging(int page, int pageSize)
+        public IEnumerable<User> ListAllPaging(string searchString, int page, int pageSize)
 
         {
+            //Tìm kiếm User
+            IQueryable<User> model = db.Users;
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                model = model.Where(x => x.UserName.Contains(searchString) || x.Name.Contains(searchString));
+            }
             //Sắp xếp theo thứ tự ngày tạo
-            return db.Users.OrderByDescending(x=>x.CreateDate).ToPagedList(page, pageSize); 
+            return model.OrderBy(x => x.CreateDate).ToPagedList(page, pageSize);               
         }
 
         public User GetById(string userName)
