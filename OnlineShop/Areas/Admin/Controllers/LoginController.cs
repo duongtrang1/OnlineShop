@@ -34,15 +34,15 @@ namespace OnlineShop.Areas.Admin.Controllers
                 }
                 else if (result == 0)
                 {
-                    ModelState.AddModelError("", "Tai khoan khong ton tai");
+                    ModelState.AddModelError("", "Tài khoản không tồn tại");
                 }
                 else if (result == -1)
                 {
-                    ModelState.AddModelError("", "Tai khoan dang bi khoa");
+                    ModelState.AddModelError("", "Tài khoản đang bị khóa");
                 }
                 else if (result == -2)
                 {
-                    ModelState.AddModelError("", "Mat khau khong dung");
+                    ModelState.AddModelError("", "Mật khẩu không đúng");
                 }
             }
             return View("Index");
