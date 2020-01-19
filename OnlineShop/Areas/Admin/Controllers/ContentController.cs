@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Model.Dao;
+using Model.EF;
 
 namespace OnlineShop.Areas.Admin.Controllers
 {
@@ -14,8 +16,50 @@ namespace OnlineShop.Areas.Admin.Controllers
             return View();
         }
 
+        [HttpGet]
         public ActionResult Create()
         {
+            SetViewBag();
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateInput (false)]
+        public ActionResult Create(Content model) 
+        {
+            if (ModelState.IsValid)
+            {
+
+            }
+            SetViewBag();
+            return View();
+        }
+        
+        //Lấy ra dc danh sách của Category từ CategoryDao
+        public void SetViewBag(long? selectedId = null)
+        {
+            var dao = new CategoryDao();
+            ViewBag.CategoryID = new SelectList(dao.ListAll(), "ID", "Name", selectedId);
+        }
+
+        [HttpGet]
+        public ActionResult Edit(long id)
+        {
+            var dao = new ContentDao();
+            var content = dao.getbyID(id);
+             
+            SetViewBag();
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Edit(Content model)
+        {
+            if (ModelState.IsValid)
+            {
+
+            }
+            SetViewBag();
             return View();
         }
     }
