@@ -95,5 +95,17 @@ namespace OnlineShop.Areas.Admin.Controllers
             new UserDao().Delete(id);
             return RedirectToAction("Index");
         }
+
+        //Gọi phương thức ở Controller, trả về JsonResult
+        [HttpPost]
+        public JsonResult ChangeStatus(long id)
+        {
+            var result = new UserDao().ChangeStatus(id);
+            //trả về phương thức Json, new ra 1 đối tượng status, sau đó viết sự kiện javascript
+            return Json(new
+            {
+                status = result
+            }) ;
+        }
     }
 }

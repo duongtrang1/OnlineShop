@@ -1786,6 +1786,7 @@
     <Content Include="Assets\admin\js\plugins\ckfinder2.6.3\_samples\skin_v1.html" />
     <Content Include="Assets\admin\js\plugins\ckfinder2.6.3\_samples\standalone.html" />
     <Content Include="Assets\admin\js\plugins\ckfinder2.6.3\_samples\standalone_v1.html" />
+    <Content Include="Assets\admin\js\controller\userController.js" />
     <Content Include="Content\PagedList.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
