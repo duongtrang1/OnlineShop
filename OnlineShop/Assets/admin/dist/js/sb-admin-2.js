@@ -1,6 +1,10 @@
-$(function() {
+﻿$(function() {
 
     $('#side-menu').metisMenu();
+
+    //Để thông báo ẩn đi 1 giây sau khi hiện ra
+    $('#AlertBox').removeClass('hide');    
+    $('#AlertBox').delay(3000).slideUp(500);
 
 });
 

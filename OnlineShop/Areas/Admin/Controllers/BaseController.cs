@@ -16,10 +16,28 @@ namespace OnlineShop.Areas.Admin.Controllers
             var session = (UserLogin)Session[CommonConstants.USER_SESSION];
             if (session == null)
             {
-                filterContext.Result = new RedirectToRouteResult(new 
+                filterContext.Result = new RedirectToRouteResult(new
                     RouteValueDictionary(new { controller = "Login", action = "Index", Area = "Admin" }));
             }
             base.OnActionExecuting(filterContext);
-        }      
+        }
+
+        protected void SetAlert(string message, string type)
+        {
+            //Tempdata là đối tượng có thể paste thông tin từ trên server mà ko cần chuyển kiểu
+            TempData["AlertMessage"] = message;
+            if (type == "success")
+            {
+                TempData["AlertType"] = "alert-success";
+            }
+            else if (type == "warning")
+            {
+                TempData["AlertType"] = "alert-warning";
+            }
+            else if (type == "error")
+            {
+                TempData["AlertType"] = "alert-danger";
+            }
+        }
     }
 }

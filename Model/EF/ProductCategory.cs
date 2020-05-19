@@ -9,7 +9,8 @@ namespace Model.EF
     [Table("ProductCategory")]
     public partial class ProductCategory
     {
-        public long? ID { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        public long ID { get; set; }
 
         [StringLength(250)]
         public string Name { get; set; }
@@ -17,8 +18,7 @@ namespace Model.EF
         [StringLength(250)]
         public string MetaTitle { get; set; }
 
-        [Key]
-        public long ParentID { get; set; }
+        public long? ParentID { get; set; }
 
         public int? DisplayOrder { get; set; }
 
