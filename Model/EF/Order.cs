@@ -19,9 +19,12 @@ namespace Model.EF
         public string ShipName { get; set; }
 
         [StringLength(50)]
+        public string ShipMobile { get; set; }
+
+        [StringLength(50)]
         public string ShipAddress { get; set; }
 
-        [StringLength(5)]
+        [StringLength(50)]
         public string ShipEmail { get; set; }
 
         public int? Status { get; set; }

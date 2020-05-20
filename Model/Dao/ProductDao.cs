@@ -1,4 +1,5 @@
 ﻿using Model.EF;
+using Model.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Model.Dao
 {
-   public class ProductDao
+    public class ProductDao
     {
         OnlineShopDbContext db = null;
         public ProductDao()
@@ -54,15 +55,34 @@ namespace Model.Dao
         /// </summary>
         /// <param name="categoryID"></param>
         /// <returns></returns>
-        public List<Product> ListByCategoryId(long categoryID,ref int totalRecord, int pageIndex = 1, int pageSize =2)
+        public List<ProductViewModel> ListByCategoryId(long categoryID, ref int totalRecord, int pageIndex = 1, int pageSize = 2)
         {
+            //var model = db.Products.Where(x => x.CategoryID == categoryID)
+            //.OrderByDescending(x => x.CreateDate).Skip((pageIndex - 1) * pageSize)
+            //.Take(pageSize).ToList();
             totalRecord = db.Products.Where(x => x.CategoryID == categoryID).Count();
-            var model = db.Products.Where(x => x.CategoryID == categoryID).OrderByDescending(x => x.CreateDate).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
-            return model;
+            
+            //Join 2 bảng Product và ProductCategory
+            var model = from a in db.Products
+                        join b in db.ProductCategories
+                        on a.CategoryID equals b.ID
+                        where a.CategoryID == categoryID
+                        select new ProductViewModel()
+                        {
+                            CateMetaTitle = b.MetaTitle,
+                            CateName = b.Name,
+                            CreatedDate = a.CreateDate,
+                            ID = a.ID,
+                            Images = a.Image,
+                            MetaTitle = a.MetaTitle,
+                            Price = a.Price
+                        };
+            model.OrderByDescending(x => x.CreatedDate).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
+            return model.ToList();
         }
 
         public Product ViewDetail(long id)
-        { 
+        {
             return db.Products.Find(id);
         }
     }
