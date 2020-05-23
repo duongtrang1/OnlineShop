@@ -16,10 +16,10 @@ namespace Model.EF
         public long? CustomerID { get; set; }
 
         [StringLength(50)]
-        public string ShipName { get; set; }
+        public string ShipMobile { get; set; }
 
         [StringLength(50)]
-        public string ShipMobile { get; set; }
+        public string ShipName { get; set; }
 
         [StringLength(50)]
         public string ShipAddress { get; set; }

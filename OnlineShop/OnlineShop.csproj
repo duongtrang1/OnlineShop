@@ -295,6 +295,7 @@
     <Compile Include="Common\Encryptor.cs" />
     <Compile Include="Controllers\AboutController.cs" />
     <Compile Include="Controllers\CartController.cs" />
+    <Compile Include="Controllers\ContactController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Global.asax.cs">
@@ -1864,6 +1865,7 @@
     <Content Include="Assets\client\images\wishlist.png" />
     <Content Include="Assets\client\js\bootstrap.min.js" />
     <Content Include="Assets\client\js\controller\cartController.js" />
+    <Content Include="Assets\client\js\controller\contactController.js" />
     <Content Include="Assets\client\js\easing.js" />
     <Content Include="Assets\client\js\easyResponsiveTabs.js" />
     <Content Include="Assets\client\js\jquery-1.7.2.min.js" />
@@ -1874,6 +1876,7 @@
     <Content Include="Assets\client\js\script.js" />
     <Content Include="Assets\client\js\slides.min.jquery.js" />
     <Content Include="Assets\client\js\startstop-slider.js" />
+    <Content Include="Assets\client\template\neworder.html" />
     <Content Include="Assets\client\webfonts\fa-brands-400.svg" />
     <Content Include="Assets\client\webfonts\fa-regular-400.svg" />
     <Content Include="Assets\client\webfonts\fa-solid-900.svg" />
@@ -2311,6 +2314,7 @@
     <Content Include="Views\Shared\HeaderCart.cshtml" />
     <Content Include="Views\Cart\Payment.cshtml" />
     <Content Include="Views\Cart\Success.cshtml" />
+    <Content Include="Views\Contact\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -2326,6 +2330,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{0A57A429-6BBF-473E-A755-44A590EA8256}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Model\Model.csproj">
       <Project>{22e10581-251c-440a-bc26-28b09eaf8773}</Project>
       <Name>Model</Name>

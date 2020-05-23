@@ -33,7 +33,7 @@ namespace OnlineShop.Controllers
             ViewBag.Page = page;
 
             int maxPage = 5;
-            int totalPage = 0;
+            int totalPage ;
             totalPage = (int)Math.Ceiling((double)(totalRecord / pageSize));
             ViewBag.TotalPage = totalPage;
             ViewBag.MaxPage = maxPage;

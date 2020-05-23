@@ -158,6 +158,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Dao\CategoryDao.cs" />
+    <Compile Include="Dao\ContactDao.cs" />
     <Compile Include="Dao\ContentDao.cs" />
     <Compile Include="Dao\Footer.cs" />
     <Compile Include="Dao\MenuDao.cs" />

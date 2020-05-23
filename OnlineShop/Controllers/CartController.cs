@@ -1,9 +1,12 @@
-﻿using Model.Dao;
+﻿using Common;
+using Model.Dao;
 using Model.EF;
 using OnlineShop.Common;
 using OnlineShop.Models;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Configuration;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -49,9 +52,11 @@ namespace OnlineShop.Controllers
                 else
                 {
                     //Tạo mới đối tượng cart item
-                    var item = new CartItem();
-                    item.Product = product;
-                    item.Quantity = quantity;
+                    var item = new CartItem
+                    {
+                        Product = product,
+                        Quantity = quantity
+                    };
                     list.Add(item);
 
                 }
@@ -61,9 +66,11 @@ namespace OnlineShop.Controllers
             else
             {
                 //Tạo mới đối tượng cart item
-                var item = new CartItem();
-                item.Product = product;
-                item.Quantity = quantity;
+                var item = new CartItem
+                {
+                    Product = product,
+                    Quantity = quantity
+                };
                 var list = new List<CartItem>();
                 list.Add(item);
                 //Gán vào Session
@@ -128,32 +135,50 @@ namespace OnlineShop.Controllers
         [HttpPost]
         public ActionResult Payment(string shipName, string mobile, string address, string email)
         {
-            var order = new Order();
-            order.CreatedDate = DateTime.Now;
-            order.ShipName = shipName;
-            order.ShipAddress = address;
-            order.ShipMobile = mobile;
-            order.ShipEmail = email;
+            var order = new Order
+            {
+                CreatedDate = DateTime.Now,
+                ShipAddress = address,
+                ShipMobile = mobile,
+                ShipName = shipName,
+                ShipEmail = email
+            };
 
             try
             {
-                var cart = (List<CartItem>)Session[CommonConstants.CartSession];
                 var id = new OrderDao().Insert(order);
+                var cart = (List<CartItem>)Session[CommonConstants.CartSession];
                 var detailDao = new OrderDetailDao();
+                decimal total = 0;
                 foreach (var item in cart)
                 {
-                    var orderDetail = new OrderDetail();
-                    orderDetail.ProductID = item.Product.ID;
-                    orderDetail.OrderID = id;
-                    orderDetail.Price = item.Product.Price;
-                    orderDetail.Quantity = item.Quantity;
+                    var orderDetail = new OrderDetail()
+                    {
+                        ProductID = item.Product.ID,
+                        OrderID  = id,
+                        Price = item.Product.Price,
+                        Quantity = item.Quantity
+                     };   
                     detailDao.Insert(orderDetail);
-                }
-            }
-            catch (Exception )
-            {
-                return Redirect("/loi-thanh-toan");
 
+                    total += (item.Product.Price.GetValueOrDefault(0) * item.Quantity);
+                }
+                string content = System.IO.File.ReadAllText(Server.MapPath("/Assets/client/template/neworder.html"));
+
+                content = content.Replace("{{CustomerName}}", shipName);
+                content = content.Replace("{{Phone}}", mobile);
+                content = content.Replace("{{Email}}", email);
+                content = content.Replace("{{Address}}", address);
+                content = content.Replace("{{Total}}", total.ToString("N0"));
+                var toEmail = ConfigurationManager.AppSettings["ToEmailAddress"].ToString();
+                
+                new MailHelper().SendMail(email, "Đơn hàng mới từ OnlineShop", content);
+                new MailHelper().SendMail(toEmail, "Đơn hàng mới từ OnlineShop", content);
+            }
+            catch (Exception)
+            {
+                //ghi log
+                return Redirect("/loi-thanh-toan");
             }
             return Redirect("/hoan-thanh");
         }
